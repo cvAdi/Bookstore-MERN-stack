@@ -8,6 +8,7 @@ import { useSnackbar } from 'notistack';
 
 const DeleteBook = () => {
 
+  const API_URL = import.meta.env.VITE_API_URL
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const {id} = useParams();
@@ -16,7 +17,7 @@ const DeleteBook = () => {
   const handleDeleteBook = () => {
     setLoading(true);
     axios
-    .delete(`http://localhost:5555/books/${id}`)
+    .delete(`${API_URL}/books/${id}`)
     .then(() => {
       setLoading(false);
       enqueueSnackbar('Book Deleted Successfully', {variant:"success"});

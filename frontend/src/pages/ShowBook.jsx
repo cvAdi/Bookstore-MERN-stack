@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom'
 
 const ShowBook = () => {
 
+  const API_URL = import.meta.env.VITE_API_URL
   const [book, setBook] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -15,7 +16,7 @@ const ShowBook = () => {
   useEffect(() => {
     setLoading(true)
     axios
-    .get(`http://localhost:5555/books/${id}`)
+    .get(`${API_URL}/books/${id}`)
     .then((response) => {
       setBook(response.data);
       setLoading(false);

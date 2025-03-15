@@ -9,13 +9,14 @@ import BooksCards from '../components/home/BooksCards';
 
 const Home = () => {
 
+  const API_URL = import.meta.env.VITE_API_URL;
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showType, setShowType] = useState();
 
   useEffect(() => {
     setLoading(true);
-    axios.get('http://localhost:5555/books')
+    axios.get(`${API_URL}/books`)
       .then((response) => {
         setBooks(response.data.data)
         setLoading(false);
@@ -48,7 +49,7 @@ const Home = () => {
           <MdOutlineAddBox className='text-sky-800 text-4xl' />
         </Link>
       </div>
-      {loading ? <Spinner /> : showType === 'table' ? (<BooksTable books={books} />) : (<BooksCards books={books} />)}
+      {loading ? <Spinner /> : showType === 'table' ? (<BooksTable books={books} />) : (<BooksCards books={books} />) }
 
     </div>
   )

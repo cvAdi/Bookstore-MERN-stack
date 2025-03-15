@@ -16,7 +16,7 @@ app.use(express.json());
 //option2 specific
 app.use(
     cors({
-        origin: 'http://localhost:5173',
+        origin: 'https://bookstore-mern-stack-bp3l.vercel.app/',
         methods : ['GET', 'POST', 'PUT', 'DELETE'],
         allowedHeaders :['content-type'],
     })

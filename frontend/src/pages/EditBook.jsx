@@ -7,6 +7,7 @@ import {  useSnackbar } from 'notistack';
 
 const EditBook = () => {
 
+  const API_URL = import.meta.env.VITE_API_URL
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [publishYear, setPublishYear] = useState('');
@@ -19,7 +20,7 @@ const EditBook = () => {
   useEffect(() => {
     setLoading(true);
     axios
-    .get(`http://localhost:5555/books/${id}`)
+    .get(`${API_URL}/books/${id}`)
     .then((response) => {
       setLoading(false);
       setAuthor(response.data.author);
@@ -43,7 +44,7 @@ const EditBook = () => {
 
     setLoading(true);
     axios
-    .put(`http://localhost:5555/books/${id}`, data)
+    .put(`${API_URL}/books/${id}`, data)
     .then(() => {
       setLoading(false);
       enqueueSnackbar('Book Edited Successfully', {variant: 'success'})
