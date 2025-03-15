@@ -24,7 +24,7 @@ const CreateBook = () => {
 
     setLoading(true);
     axios
-    .post(`${API_URL}/books`, data)
+    .post(`${API_URL}`, data)
     .then(() => {
       setLoading(false);
       enqueueSnackbar('Book Created Successfully', {variant : 'success'});

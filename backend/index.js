@@ -1,39 +1,44 @@
-import express, { request, response } from 'express';
-import { mongoDBURL, PORT } from './config.js';
+import express from 'express';
 import mongoose from 'mongoose';
-import booksRoute from './routes/booksRoute.js';
 import cors from 'cors';
+import { mongoDBURL, PORT } from './config.js';
+import booksRoute from './routes/booksRoute.js';
 
 const app = express();
 
-//middleware for parsing requesting body
+// Middleware for parsing JSON request body
 app.use(express.json());
 
-//middleware for cors policy
-//option 1 default(*)
-//app.use(cors());
-
-//option2 specific
+// Middleware for CORS policy
 app.use(
     cors({
-        origin: 'https://bookstore-mern-stack-bp3l.vercel.app/',
-        methods : ['GET', 'POST', 'PUT', 'DELETE'],
-        allowedHeaders :['content-type'],
+        origin: 'https://bookstore-mern-stack-bp3l.vercel.app', // ✅ REMOVE the trailing '/'
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        allowedHeaders: ['Content-Type'],
+        credentials: true,
     })
-)
+);
 
-app.use('/books', booksRoute);
+// Custom CORS Headers (Fixes Preflight Issues)
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'https://bookstore-mern-stack-bp3l.vercel.app');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+});
 
+// API Routes
+app.use('/api/books', booksRoute);
 
-
+// Connect to MongoDB
 mongoose
-    .connect(mongoDBURL)
+    .connect(mongoDBURL, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
-        app.listen(PORT, ()=> {
-            console.log(`Apps is running to port : ${PORT}`);
-        })
-        console.log('App connected to Database');
+        app.listen(PORT, () => {
+            console.log(`✅ Server running on port: ${PORT}`);
+        });
+        console.log('✅ Connected to MongoDB');
     })
     .catch((error) => {
-        console.log(error);
-    })
+        console.error('❌ MongoDB Connection Error:', error);
+    });
